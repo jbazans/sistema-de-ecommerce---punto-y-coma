@@ -1,10 +1,13 @@
 :root{
 	--main-header-color:linear-gradient(45deg,#ef971e,#ffbc6a);
+	--main-red:#c71212;
 }
 body,html{
 	margin: 0;
 	padding: 0;
-	background-color: #fefefe;
+}
+body{
+    background-color: #f3f3f3;
 }
 header{
 	height: 40px;
@@ -64,12 +67,18 @@ header{
 	font-size: 30px;
 	cursor: pointer;
 	color:#fff;
+	font-family: 'Sen', sans-serif;
+	display: flex;
+}
+.item-option p{
+	font-size: 15px;
+	margin: 0;
+	margin-left: 5px;
 }
 .main-content{
 	margin-top: 60px;
 	width: 100%;
 	font-family: 'Sen', sans-serif;
-    background: #f3f3f3;
 }
 .content-page{
 	margin: auto;
@@ -82,13 +91,13 @@ header{
 	background: #fff;
 }
 .part1{
-	padding: 5px;
-	width: calc(60% - 10px);
+	padding: 10px;
+	width: calc(60% - 20px);
 }
 .part2{
-	padding: 5px;
-	width: calc(40% - 10px);
-	margin: 20px 0;
+	padding: 10px;
+	width: calc(40% - 20px);
+	border-left: 1px solid #ddd;
 }
 .part1 img{
 	width: 100%;
@@ -98,34 +107,34 @@ header{
 	font-family: 'Sen', sans-serif;
 }
 .part2 h2{
-	color: #999;
+	color: #333;
 	font-size: 30px;
 }
 .part2 h1{
-	color: #d86a6a;
+	color: var(--main-red);
 	font-size: 45px;
 }
 .part2 h1 span{
-	color: #d86a6a;
+	color: #c71212;
 	font-size: 30px;
 }
 .part2 h3{
-	color: #999;
+	color: #333;
 	font-weight: normal;
 }
 .part2 button{
 	border-style: none;
-	border-radius: 15px;
+	border-radius: 5px;
 	padding: 13px 20px;
 	color: #fff;
-	background: #d86a6a;
+	background: #c71212;
 	cursor: pointer;
 	font-size: 16px;
 }
 .title-section{
 	padding: 10px 0; 
 	font-size: 20px;
-	color: #aaa;
+	color: #666;
 	font-family: 'Sen', sans-serif;
 }
 .products-list{
@@ -155,14 +164,14 @@ header{
 	padding: 5px;
 	text-align: center;
 	font-size: 18px;
-	color: #999;
+	color: #333;
 	width: calc(100% - 10px);
 	height: 35px;
 }
 .detail-description{
 	text-align: center;
 	font-size: 14px;
-	color: #999;
+	color: #333;
 	padding: 5px;
 	width: calc(100% - 10px);
 	height: 34px;
@@ -170,7 +179,7 @@ header{
 .detail-price{
 	text-align: center;
 	font-size: 25px;
-	color: #d86a6a;
+	color: var(--main-red);
 	padding: 5px;
 	width: calc(100% - 10px);
 }

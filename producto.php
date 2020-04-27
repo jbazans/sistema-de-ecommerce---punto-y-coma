@@ -1,3 +1,6 @@
+<?php
+	session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,14 +12,23 @@
 </head>
 <body>
 	<header>
-		<div class="logo-place"><img src="assets/logo.png"></div>
+		<div class="logo-place"><a href="index.php"><img src="assets/logo.png"></a></div>
 		<div class="search-place">
 			<input type="text" id="idbusqueda" placeholder="Encuenta todo lo que necesitas...">
 			<button class="btn-main btn-search"><i class="fa fa-search" aria-hidden="true"></i></button>
 		</div>
 		<div class="options-place">
+			<?php
+			if (isset($_SESSION['codusu'])) {
+				echo
+				'<div class="item-option"><i class="fa fa-user-circle-o" aria-hidden="true"></i><p>'.$_SESSION['nomusu'].'</p></div>';
+			}else{
+			?>
 			<div class="item-option" title="Registrate"><i class="fa fa-user-circle-o" aria-hidden="true"></i></div>
 			<div class="item-option" title="Ingresar"><i class="fa fa-sign-in" aria-hidden="true"></i></div>
+			<?php
+			}
+			?>
 			<div class="item-option" title="Mis compras"><i class="fa fa-shopping-cart" aria-hidden="true"></i></div>
 		</div>
 	</header>
@@ -30,7 +42,7 @@
 					<h2 id="idtitle">NOMBRE PRINCIPAL</h2>
 					<h1 id="idprice">S/. 35.<span>99</span></h1>
 					<h3 id="iddescription">Descripcion del producto</h3>
-					<button>Comprar</button>
+					<button onclick="iniciar_compra()">Comprar</button>
 				</div>
 			</section>
 			<div class="title-section">Productos destacados</div>
@@ -81,6 +93,32 @@
 			let svalor=valor.toString();
 			let array=svalor.split(".");
 			return "S/. "+array[0]+".<span>"+array[1]+"</span>";
+		}
+		function iniciar_compra(){
+			$.ajax({
+				url:'servicios/compra/validar_inicio_compra.php',
+				type:'POST',
+				data:{
+					codpro:p
+				},
+				success:function(data){
+					console.log(data);
+					if (data.state) {
+
+					}else{
+						alert(data.detail);
+						if (data.open_login) {
+							open_login();
+						}
+					}
+				},
+				error:function(err){
+					console.error(err);
+				}
+			});
+		}
+		function open_login(){
+			window.location.href="login.php";
 		}
 	</script>
 </body>

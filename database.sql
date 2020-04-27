@@ -19,3 +19,17 @@ VALUES ('Papel Crepe','Ideal para decoraci&oacute;n de trabajos escolares','14.9
 ,('Tempera Artesco 250 ml','Frasco de tempera Artesco de 250 ml','3.99',1,'temperaartesco.jpg')
 ,('Plastilina Norma','Caja con 12 barras plastilinas. 260 gr','5.99',1,'plastilinanorma.jpg')
 ,('Cuaderno Standford','Cuaderno cuadriculado Standford 100 hojas','3.49',1,'cuadernostandford.jpg');
+
+CREATE TABLE USUARIO(
+	codusu int not null AUTO_INCREMENT,
+	nomusu varchar(50) ,
+	apeusu varchar(50) ,
+	emausu varchar(50) not null,
+	pasusu varchar(20) not null,
+	estado int not null,
+	CONSTRAINT pk_usuario
+	PRIMARY KEY (codusu)
+);
+
+INSERT INTO USUARIO (nomusu,apeusu,emausu,pasusu,estado)
+VALUES ('Usuario','Demo','correo@example.com','123456',1);
