@@ -1,5 +1,8 @@
 <?php
 	session_start();
+	if (!isset($_SESSION['codusu'])) {
+		header('location: index.php');
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,15 +39,20 @@
 	</header>
 	<div class="main-content">
 		<div class="content-page">
-			<div class="title-section">Productos destacados</div>
-			<div class="products-list" id="space-list">
+			<h3>Mi carrito</h3>
+			<div class="body-pedidos" id="space-list">
 			</div>
+			<input class="ipt-procom" type="text" id="dirusu" placeholder="Dirección">
+			<br>
+			<input class="ipt-procom" type="text" id="telusu" placeholder="Celular">
+			<br>
+			<button onclick="procesar_compra()">Procesar compra</button>
 		</div>
 	</div>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$.ajax({
-				url:'servicios/producto/get_all_products.php',
+				url:'servicios/pedido/get_porprocesar.php',
 				type:'POST',
 				data:{},
 				success:function(data){
@@ -52,15 +60,18 @@
 					let html='';
 					for (var i = 0; i < data.datos.length; i++) {
 						html+=
-						'<div class="product-box">'+
-							'<a href="producto.php?p='+data.datos[i].codpro+'">'+
-								'<div class="product">'+
-									'<img src="assets/products/'+data.datos[i].rutimapro+'">'+
-									'<div class="detail-title">'+data.datos[i].nompro+'</div>'+
-									'<div class="detail-description">'+data.datos[i].despro+'</div>'+
-									'<div class="detail-price">'+formato_precio(data.datos[i].prepro)+'</div>'+
-								'</div>'+
-							'</a>'+
+						'<div class="item-pedido">'+
+							'<div class="pedido-img">'+
+								'<img src="assets/products/'+data.datos[i].rutimapro+'">'+
+							'</div>'+
+							'<div class="pedido-detalle">'+
+								'<h3>'+data.datos[i].nompro+'</h3>'+
+								'<p><b>Precio:</b> S/ '+data.datos[i].prepro+'</p>'+
+								'<p><b>Fecha:</b> '+data.datos[i].fecped+'</p>'+
+								'<p><b>Estado:</b> '+data.datos[i].estado+'</p>'+
+								'<p><b>Dirección:</b> '+data.datos[i].dirusuped+'</p>'+
+								'<p><b>Celular:</b> '+data.datos[i].telusuped+'</p>'+
+							'</div>'+
 						'</div>';
 					}
 					document.getElementById("space-list").innerHTML=html;
@@ -70,11 +81,32 @@
 				}
 			});
 		});
-		function formato_precio(valor){
-			//10.99
-			let svalor=valor.toString();
-			let array=svalor.split(".");
-			return "S/. "+array[0]+".<span>"+array[1]+"</span>";
+		function procesar_compra(){
+			let dirusu=document.getElementById("dirusu").value;
+			let telusu=$("#telusu").val();
+			if (dirusu=="" || telusu=="") {
+				alert("Complete los campos");
+			}else{
+				$.ajax({
+					url:'servicios/pedido/confirm.php',
+					type:'POST',
+					data:{
+						dirusu:dirusu,
+						telusu:telusu
+					},
+					success:function(data){
+						console.log(data);
+						if (data.state) {
+							window.location.href="pedido.php";
+						}else{
+							alert(data.detail);
+						}
+					},
+					error:function(err){
+						console.error(err);
+					}
+				});
+			}
 		}
 	</script>
 </body>

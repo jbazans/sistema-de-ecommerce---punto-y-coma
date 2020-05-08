@@ -34,6 +34,17 @@ header{
 	display: flex;
 	padding: 0px 20px;
 }
+input{
+	padding: 10px;
+	font-size: 15px;
+	background-color: #fefefe;
+	border:1px solid #ccc;
+	width: calc(100% - 62px);
+	font-family: 'Sen', sans-serif;
+}
+input:placeholder{
+	color: #ccc;
+}
 .search-place input{
 	padding: 10px;
 	font-size: 15px;
@@ -55,6 +66,7 @@ header{
 }
 .btn-search{
 	width: 40px;
+	color: #333;
 }
 .options-place{
 	width: 250px;
@@ -122,6 +134,15 @@ header{
 	color: #333;
 	font-weight: normal;
 }
+button{
+	border-style: none;
+	border-radius: 5px;
+	padding: 13px 20px;
+	color: #fff;
+	background: #c71212;
+	cursor: pointer;
+	font-size: 16px;
+}
 .part2 button{
 	border-style: none;
 	border-radius: 5px;
@@ -185,4 +206,41 @@ header{
 }
 .detail-price span{
 	font-size: 15px;
+}
+a{
+	color: #fff;
+}
+.body-pedidos{
+	width: 100%;
+}
+.item-pedido{
+	display: flex;
+	border: 1px #ccc solid;
+	margin-bottom: 5px;
+	background: #fff;
+}
+.pedido-img{
+	width: 200px;
+}
+.pedido-img img{
+	width: 100%;
+}
+.pedido-detalle{
+	padding: 10px;
+	width: calc(100% - 220px);
+}
+.pedido-detalle h3,
+.pedido-detalle p{
+	margin: 5px 0;
+}
+.ipt-procom{
+	width: 250px;
+	margin-bottom: 5px;
+}
+.p-line{
+	display: flex;
+}
+.p-line div{
+	width: 150px;
+	font-weight: 600;
 }

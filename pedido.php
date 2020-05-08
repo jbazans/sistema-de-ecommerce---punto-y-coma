@@ -1,5 +1,8 @@
 <?php
 	session_start();
+	if (!isset($_SESSION['codusu'])) {
+		header('location: index.php');
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,33 +39,47 @@
 	</header>
 	<div class="main-content">
 		<div class="content-page">
-			<div class="title-section">Productos destacados</div>
-			<div class="products-list" id="space-list">
+			<h3>Mis pedidos</h3>
+			<div class="body-pedidos" id="space-list">
 			</div>
+			<h3>Datos de pago</h3>
+			<div class="p-line"><div>MONTO TOTAL:</div>S/.&nbsp;<span id="montototal"></span></div>
+			<div class="p-line"><div>Banco:</div>BCP</div>
+			<div class="p-line"><div>N° de Cuenta:</div>191-45678945-006</div>
+			<div class="p-line"><div>Representante:</div>Encargado de ventas</div>
+			<p><b>NOTA:</b> Para confirmar la compra debe realizar el deposito por le monto total, y enviar el comprobante al siguiente correo example@example.com o al número de whatsapp 999 666 333</p>
 		</div>
 	</div>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$.ajax({
-				url:'servicios/producto/get_all_products.php',
+				url:'servicios/pedido/get_procesados.php',
 				type:'POST',
 				data:{},
 				success:function(data){
 					console.log(data);
 					let html='';
+					let monto=0;
 					for (var i = 0; i < data.datos.length; i++) {
 						html+=
-						'<div class="product-box">'+
-							'<a href="producto.php?p='+data.datos[i].codpro+'">'+
-								'<div class="product">'+
-									'<img src="assets/products/'+data.datos[i].rutimapro+'">'+
-									'<div class="detail-title">'+data.datos[i].nompro+'</div>'+
-									'<div class="detail-description">'+data.datos[i].despro+'</div>'+
-									'<div class="detail-price">'+formato_precio(data.datos[i].prepro)+'</div>'+
-								'</div>'+
-							'</a>'+
+						'<div class="item-pedido">'+
+							'<div class="pedido-img">'+
+								'<img src="assets/products/'+data.datos[i].rutimapro+'">'+
+							'</div>'+
+							'<div class="pedido-detalle">'+
+								'<h3>'+data.datos[i].nompro+'</h3>'+
+								'<p><b>Precio:</b> S/.'+data.datos[i].prepro+'</p>'+
+								'<p><b>Fecha:</b> '+data.datos[i].fecped+'</p>'+
+								'<p><b>Estado:</b> '+data.datos[i].estadotext+'</p>'+
+								'<p><b>Dirección:</b> '+data.datos[i].dirusuped+'</p>'+
+								'<p><b>Celular:</b> '+data.datos[i].telusuped+'</p>'+
+							'</div>'+
 						'</div>';
+						if (data.datos[i].estado=="2") {
+							monto+=parseFloat(data.datos[i].prepro);
+						}
 					}
+					document.getElementById("montototal").innerHTML=monto;
 					document.getElementById("space-list").innerHTML=html;
 				},
 				error:function(err){
@@ -70,12 +87,6 @@
 				}
 			});
 		});
-		function formato_precio(valor){
-			//10.99
-			let svalor=valor.toString();
-			let array=svalor.split(".");
-			return "S/. "+array[0]+".<span>"+array[1]+"</span>";
-		}
 	</script>
 </body>
 </html>

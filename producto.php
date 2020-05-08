@@ -29,7 +29,9 @@
 			<?php
 			}
 			?>
-			<div class="item-option" title="Mis compras"><i class="fa fa-shopping-cart" aria-hidden="true"></i></div>
+			<div class="item-option" title="Mis compras">
+				<a href="carrito.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+			</div>
 		</div>
 	</header>
 	<div class="main-content">
@@ -104,7 +106,7 @@
 				success:function(data){
 					console.log(data);
 					if (data.state) {
-
+						alert(data.detail);
 					}else{
 						alert(data.detail);
 						if (data.open_login) {
