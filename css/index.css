@@ -244,3 +244,18 @@ a{
 	width: 150px;
 	font-weight: 600;
 }
+.metodo-pago{
+	display: flex;
+	width: 100%;
+}
+input[type="radio"]{
+	width: 20px;
+	height: 20px;
+	margin: 0 5px 5px 5px;
+}
+.metodo-pago label{
+	width: calc(100% - 30px);
+}
+.content-page h4{
+	margin: 5px 0;
+}

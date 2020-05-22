@@ -46,7 +46,16 @@
 			<br>
 			<input class="ipt-procom" type="text" id="telusu" placeholder="Celular">
 			<br>
-			<button onclick="procesar_compra()">Procesar compra</button>
+			<h4>Tipos de pago</h4>
+			<div class="metodo-pago">
+				<input type="radio" name="tipopago" value="1" id="tipo1">
+				<label for="tipo1">Pago por transferencia</label>
+			</div>
+			<div class="metodo-pago">
+				<input type="radio" name="tipopago" value="2" id="tipo2">
+				<label for="tipo2">Pago con tarjeta de crédito/débito</label>
+			</div>
+			<button onclick="procesar_compra()" style="margin-top: 5px;">Procesar compra</button>
 		</div>
 	</div>
 	<script type="text/javascript">
@@ -58,6 +67,7 @@
 				success:function(data){
 					console.log(data);
 					let html='';
+					let sumaMonto=0;
 					for (var i = 0; i < data.datos.length; i++) {
 						html+=
 						'<div class="item-pedido">'+
@@ -73,7 +83,14 @@
 								'<p><b>Celular:</b> '+data.datos[i].telusuped+'</p>'+
 							'</div>'+
 						'</div>';
+						sumaMonto+=parseInt(data.datos[i].prepro)+1;
 					}
+				    Culqi.settings({
+				        title: 'Mi tienda',
+				        currency: 'PEN',
+				        description: 'Productos escolares',
+				        amount: sumaMonto
+				    });
 					document.getElementById("space-list").innerHTML=html;
 				},
 				error:function(err){
@@ -84,15 +101,56 @@
 		function procesar_compra(){
 			let dirusu=document.getElementById("dirusu").value;
 			let telusu=$("#telusu").val();
+			let tipopago=1;
+			if (document.getElementById("tipo2").checked) {
+				tipopago=2;
+			}
 			if (dirusu=="" || telusu=="") {
 				alert("Complete los campos");
 			}else{
-				$.ajax({
+				if (!document.getElementById("tipo1").checked &&
+					!document.getElementById("tipo2").checked) {
+					alert("Seleccione un método de pago!");
+				}else{
+					if (tipopago==2) {
+						Culqi.open();
+					}else{
+						$.ajax({
+							url:'servicios/pedido/confirm.php',
+							type:'POST',
+							data:{
+								dirusu:dirusu,
+								telusu:telusu,
+								tipopago:tipopago,
+								token:''
+							},
+							success:function(data){
+								console.log(data);
+								if (data.state) {
+									window.location.href="pedido.php";
+								}else{
+									alert(data.detail);
+								}
+							},
+							error:function(err){
+								console.error(err);
+							}
+						});
+					}
+				}
+			}
+		}
+		function culqi() {
+			if (Culqi.token) { 
+		      	var token = Culqi.token.id;
+		      	$.ajax({
 					url:'servicios/pedido/confirm.php',
 					type:'POST',
 					data:{
-						dirusu:dirusu,
-						telusu:telusu
+						dirusu:document.getElementById("dirusu").value,
+						telusu:$("#telusu").val(),
+						tipopago:2,
+						token:token
 					},
 					success:function(data){
 						console.log(data);
@@ -106,8 +164,15 @@
 						console.error(err);
 					}
 				});
-			}
-		}
+		  	} else {
+		      	console.log(Culqi.error);
+		      	alert(Culqi.error.user_message);
+		  	}
+		};
+	</script>
+	<script src="https://checkout.culqi.com/js/v3"></script>
+	<script>
+	    Culqi.publicKey = 'pk_test_3adf22bd8acf4efc';
 	</script>
 </body>
 </html>
